@@ -1,0 +1,7 @@
+catboost==0.24.1
+nltk==3.5
+numpy==1.19.1
+pandas==1.1.2
+pymystem3==0.2.0
+seaborn==0.11.0
+selenium==3.141.0
