@@ -14,6 +14,10 @@ sns.set()
 # Подготавливаем текст
 def full_preprocessing(file):
 
+    # Добавляем ломающие символы
+
+    punctuation_upd = punctuation + '»' + '«'
+
     # Открываем файл и записываем отзывы в строку, отдельно запоминаем название товара
     reviews_file = open(file, 'r')
 
@@ -36,7 +40,7 @@ def full_preprocessing(file):
         tokens = my_stem.lemmatize(text.lower())
         tokens = [token for token in tokens if token not in russian_stopwords
                   and token != " "
-                  and token.strip() not in punctuation]
+                  and token.strip() not in punctuation_upd]
         return tokens
 
     preprocessed_reviews = [preprocess_text(review) for review in reviews_list]
@@ -48,9 +52,9 @@ def full_preprocessing(file):
 def top_graphics(gramm, text, product_name):
 
     # Создаем словари
-    dictionary_bigramm = Dictionary(occurence_lower_bound=2, max_dictionary_size=10, gram_order=gramm)
-    dictionary_bigramm.fit(text);
-    dictionary_bigramm.save('dictionary.txt')
+    dictionary = Dictionary(occurence_lower_bound=2, max_dictionary_size=10, gram_order=gramm)
+    dictionary.fit(text)
+    dictionary.save('dictionary.txt')
 
     # Cчитываем статистику из файла
     file = open('dictionary.txt', 'r').readlines()
