@@ -1,12 +1,11 @@
 import re
 from PIL import Image
+import os
 
 from sel import review_downloader
 from text_analyzer import full_preprocessing
 from text_analyzer import top_graphics
 
-
-# link = 'https://market.yandex.ru/product--vneshnii-hdd-toshiba-canvio-ready-1-tb/13043839?track=tabs'
 
 def processing(link_for_process):
 
@@ -30,19 +29,21 @@ def program(proc_link):
 
     text, words, product_name = full_preprocessing('reviews.txt')
 
-    # os.remove('reviews.txt')
-    #
-    top_graphics(1, words, product_name)
-    top_graphics(2, text, product_name)
-    top_graphics(3, text, product_name)
-    # top_graphics(4, text, product_name)
+    os.remove('reviews.txt')
 
-    img = Image.open('freq_1.png')
-    img2 = Image.open('freq_2.png')
-    img3 = Image.open('freq_3.png')
-    img.show()
-    img2.show()
-    img3.show()
+    for i in range(1, 5):
+        if i == 1:
+            top_graphics(i, words, product_name)
+        else:
+            top_graphics(i, text, product_name)
+
+        try:
+            file_name = 'freq_' + str(i) + '.png'
+            img = Image.open(file_name)
+            img.show()
+            os.remove(file_name)
+        except FileNotFoundError:
+            pass
 
 
 success = False
@@ -61,6 +62,5 @@ if link != 'exit':
     program(processed_link)
 else:
     pass
-
 
 

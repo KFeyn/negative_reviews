@@ -33,6 +33,8 @@ def review_downloader(product_link):
 
         browser.get(product_link + '/reviews?page=' + str(i))
 
+        time.sleep(0.5)
+
         # Достаем название продукта
 
         if i == 1:
@@ -49,10 +51,11 @@ def review_downloader(product_link):
         else:
             break
 
-        time.sleep(0.5)
+    browser.quit()
 
     with open('reviews.txt', 'w') as file:
         file.write(all_troubles)
 
-    browser.quit()
+
+
 
