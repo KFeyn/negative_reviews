@@ -7,8 +7,8 @@ def review_downloader(product_link):
     # Логинимся в яндексе
     browser = webdriver.Chrome('/Users/feyn/Documents/Мои дурацкие творения/reviews negative/chromedriver')
 
-    login = ''
-    password = ''
+    login = 'joebobjohn'
+    password = 'Killer1213'
 
     login_link = 'https://passport.yandex.ru/auth'
 
@@ -19,28 +19,24 @@ def review_downloader(product_link):
     browser.find_element_by_id('passp-field-login').send_keys(login)
     browser.find_element_by_xpath("//button[@type='submit']").click()
 
-    time.sleep(1)
+    time.sleep(0.5)
 
     browser.find_element_by_id('passp-field-passwd').send_keys(password)
 
-    time.sleep(1)
-
-    # Достаем название продукта
+    time.sleep(0.5)
 
     all_troubles = ''
-
-    browser.get(product_link + 'reviews')
-
-    product_name = browser.find_elements_by_tag_name('h1')[0].text
-    all_troubles += product_name
-
-    time.sleep(1)
 
     # Бегаем по страничкам с отзывами и записываем негативные в файл
 
     for i in range(1, 1000):
 
-        browser.get(product_link + 'reviews?page=' + str(i))
+        browser.get(product_link + '/reviews?page=' + str(i))
+
+        # Достаем название продукта
+
+        if i == 1:
+            all_troubles += browser.find_elements_by_tag_name('h1')[0].text
 
         all_troubles += '\n\n'
 
@@ -53,7 +49,7 @@ def review_downloader(product_link):
         else:
             break
 
-        time.sleep(1)
+        time.sleep(0.5)
 
     with open('reviews.txt', 'w') as file:
         file.write(all_troubles)
