@@ -7,8 +7,8 @@ def review_downloader(product_link):
     # Логинимся в яндексе
     browser = webdriver.Chrome('/Users/feyn/Documents/Мои дурацкие творения/reviews negative/chromedriver')
 
-    login = 'joebobjohn'
-    password = 'Killer1213'
+    login = ''
+    password = ''
 
     login_link = 'https://passport.yandex.ru/auth'
 
