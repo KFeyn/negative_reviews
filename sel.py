@@ -55,7 +55,3 @@ def review_downloader(product_link):
 
     with open('reviews.txt', 'w') as file:
         file.write(all_troubles)
-
-
-
-

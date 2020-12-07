@@ -2,11 +2,10 @@ from nltk.corpus import stopwords
 from pymystem3 import Mystem
 from string import punctuation
 from catboost.text_processing import Dictionary
-import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import os
-from matplotlib.ticker import MaxNLocator
+
 
 sns.set()
 
@@ -40,18 +39,18 @@ def full_preprocessing(file):
     russian_stopwords.append('очень')
     russian_stopwords.append('хотя')
     russian_stopwords.append('который')
+    russian_stopwords.remove('нет')
 
     russian_stopwords_one = russian_stopwords.copy()
 
-    russian_stopwords_one.remove('нет')
-    russian_stopwords_one.remove('не')
-    russian_stopwords_one.remove('больше')
-    russian_stopwords_one.remove('перед')
-    russian_stopwords_one.remove('никогда')
-    russian_stopwords_one.remove('иногда')
-    russian_stopwords_one.remove('нельзя')
-    russian_stopwords_one.remove('между')
-    russian_stopwords_one.remove('вдруг')
+    russian_stopwords.remove('не')
+    russian_stopwords.remove('больше')
+    russian_stopwords.remove('перед')
+    russian_stopwords.remove('никогда')
+    russian_stopwords.remove('иногда')
+    russian_stopwords.remove('нельзя')
+    russian_stopwords.remove('между')
+    russian_stopwords.remove('вдруг')
 
     # Функция препроцессинга
     def preprocess_text(text, russian_stopwords):
@@ -69,7 +68,7 @@ def full_preprocessing(file):
 
 
 # Рисуем частоту биграмм
-def top_graphics(gramm, text, product_name):
+def top_frame(gramm, text, product_name):
 
     # Создаем словари
     dictionary = Dictionary(occurence_lower_bound=2, max_dictionary_size=10, gram_order=gramm)
@@ -91,12 +90,6 @@ def top_graphics(gramm, text, product_name):
     frame = pd.DataFrame({'Name': name, 'Frequency': freq})
     frame = frame.sort_values('Frequency', ascending=True)
 
-    # Создаем градиент по цвету и рисуем
-    my_colors = [(x / len(frame), 0.22, 0) for x in range(len(frame))]
+    return frame, product_name
 
-    ax = plt.figure(figsize=(25, 10)).gca()
-    ax.barh('Name', 'Frequency', data=frame, color=my_colors)
-    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-    ax.set_title(f"Негативные тенденции товара {product_name}", fontsize=30, verticalalignment='bottom')
-    ax.set_xlabel("Количество упоминаний", fontsize=20)
-    plt.savefig(f'freq_{gramm}.png')
+
